@@ -1,6 +1,6 @@
 _schema-version: '3.1'
 ID: po
-version: 1.0.0
+version: 1.0.1
 description: A simple CAP project.
 parameters:
   enable-parallel-deployments: true
@@ -21,7 +21,8 @@ modules:
           name: srv-api
           strictSSL: true
           forwardAuthToken: true
-          url: ~{srv-url}
+          url: '~{srv-url}'
+      - name: po-xsuaa
   - name: po-srv
     type: nodejs
     path: gen/srv
@@ -29,6 +30,7 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: po-db
+      - name: po-xsuaa
     provides:
       - name: srv-api
         properties:
@@ -48,3 +50,9 @@ resources:
       service-plan: hdi-shared
     properties:
       hdi-service-name: '${service-name}'
+  - name: po-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json

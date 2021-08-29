@@ -2,12 +2,13 @@ namespace zvks.srv.po_annot;
 
 using {zvks.srv.po_service.PurchaseOrderSRV} from './po-service';
 
-@path : '/PurchaseOrderSRV'
+@path     : '/PurchaseOrderSRV'
+@requires : 'authenticated-user'
 annotate PurchaseOrderSRV with {};
 
 //---------------------------------------------------------------
 // Address Set
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 annotate PurchaseOrderSRV.AddressSet with {
     @UI.Hidden : true
     ID;
@@ -15,21 +16,21 @@ annotate PurchaseOrderSRV.AddressSet with {
 
 //---------------------------------------------------------------
 // Product Set
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 annotate PurchaseOrderSRV.ProductSet with {
-    @UI.Hidden        : true
+    @UI.Hidden : true
     ID;
 };
 
 //---------------------------------------------------------------
 // BP Set
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 annotate PurchaseOrderSRV.BPSet with {
     @UI.Hidden : true
     ID;
 
     //Value Helps
-    @Common : {
+    @Common    : {
         ValueList : {
             $Type          : 'Common.ValueListType',
             CollectionPath : 'BPSet',
@@ -54,10 +55,10 @@ annotate PurchaseOrderSRV.BPSet with {
     BP_NO
 };
 
-//---------------------------------------------------------------
+    //---------------------------------------------------------------
 // Purchase Order Set
-//--------------------------------------------------------------- 
-@UI : {
+//---------------------------------------------------------------
+@UI                      : {
     //  List Page
     SelectionFields              : [
         PO_NO,
@@ -67,14 +68,14 @@ annotate PurchaseOrderSRV.BPSet with {
     ],
     LineItem                     : [
         //Actions
-        {
-            $Type             : 'UI.DataFieldForAction',
-            Label             : 'Boost',
-            Action            : 'PurchaseOrderSRV.boost',
-            // Determining : '',
-            // Inline : true,
-            ![@UI.Importance] : #High,
-        },
+        // {
+        //     $Type             : 'UI.DataFieldForAction',
+        //     Label             : 'Boost',
+        //     Action            : 'PurchaseOrderSRV.boost',
+        //     // Determining : '',
+        //     // Inline : true,
+        //     ![@UI.Importance] : #High,
+        // },
         //Functions
         //...
         //List Columns
@@ -280,7 +281,20 @@ annotate PurchaseOrderSRV.BPSet with {
         ]
     }
 }
+
 @odata.draft.enabled : true
+@restrict            : [
+    {
+        //{ grant:<events>, to:<roles>, where:<filter-condition> }
+        grant : ['READ'],   // [READ, CREATE, UPDATE, DELETE]
+        to    : 'Viewer',
+        where : 'LIFECYCLE_STATUS = $user.LIFECYCLE_STATUS'
+    },
+    {
+        grant : ['CREATE, UPDATE, DELETE'], //or [WRITE]
+        to    : 'Admin'
+    }
+]
 annotate PurchaseOrderSRV.POSet with {
     @UI.Hidden           : true
     ID;
@@ -301,10 +315,10 @@ annotate PurchaseOrderSRV.POSet with {
     boost
 };
 
-//---------------------------------------------------------------
+    //---------------------------------------------------------------
 // Purchase Order Item Set
 //---------------------------------------------------------------
-@UI : {
+@UI            : {
     LineItem                  : [
         {
             $Type : 'UI.DataField',

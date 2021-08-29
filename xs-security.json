@@ -1,0 +1,42 @@
+{
+    "xsappname": "po",
+    "tenant-mode": "dedicated",
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.Viewer",
+            "description": "Viewer"
+        },
+        {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Admin"
+        }
+    ],
+    "attributes": [
+        {
+            "name": "LIFECYCLE_STATUS",
+            "description": "LIFECYCLE_STATUS",
+            "valueType": "s",
+            "valueRequired": false
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "Viewer",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.Viewer"
+            ],
+            "attribute-references": [
+                "LIFECYCLE_STATUS"
+            ]
+        },
+        {
+            "name": "Admin",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.Admin"
+            ],
+            "attribute-references": []
+        }
+    ]
+}

@@ -1,15 +1,19 @@
 { 
   "welcomeFile": "po-app/webapp/", 
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
   "routes": [ 
     { 
       "source": "^/po-app/webapp/(.*)$", 
       "target": "$1", 
-      "localDir": "po-app/webapp/" 
+      "localDir": "po-app/webapp/",
+      "csrfProtection": false,
+      "authenticationType": "xsuaa"
     }, 
     { 
       "source": "^/(.*)", 
-      "destination": "srv-api"             			
+      "destination": "srv-api",        			
+      "csrfProtection": false,
+      "authenticationType": "xsuaa"
     } 
   ] 
 }

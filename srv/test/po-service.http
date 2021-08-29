@@ -3,59 +3,102 @@
 #-------------------------------------------------------------
 ###
 GET http://localhost:4004/PurchaseOrderSRV
+Authorization: Basic username:password
 
 ###
 GET http://localhost:4004/PurchaseOrderSRV/$metadata
+Authorization: Basic username:password
 
 #-------------------------------------------------------------
-# POSet
+# POSet - Vikesh: Viewer & Admin - Can Read and Write both
 #-------------------------------------------------------------
-###
-GET http://localhost:4004/PurchaseOrderSRV/POSet?$top=11
+### Read Top 20 Purchase Orders
+GET http://localhost:4004/PurchaseOrderSRV/POSet?$top=20
+Authorization: Basic vikesh:Vikesh01!
 
-###Read Purchase orders
-GET http://localhost:4004/CatalogService/POs?$top=2&$expand=Items,PARTNER_GUID
+### Read Top 2 Purchase Orders with repective Items and Business Partners
+GET http://localhost:4004/PurchaseOrderSRV/POSet?$top=2&$expand=ITEMS,BUSINESS_PARTNER
+Authorization: Basic vikesh:Vikesh01!
 
-###Read Single PO - Old syntax works as its not UUID type
-GET http://localhost:4004/CatalogService/POs('74867AD200E41EDBA5D8B0C98DC28052')
+### Read Single Purchase Order
+GET http://localhost:4004/PurchaseOrderSRV/POSet(ID=02BD2137-0890-1EEA-A6C2-BB55C1978999,IsActiveEntity=true)
+Authorization: Basic vikesh:Vikesh01!
 
-###Create new PO
-POST http://localhost:4004/CatalogService/POs
+### Read Single Purchase Order with respective Items and Business Partners
+GET http://localhost:4004/PurchaseOrderSRV/POSet(ID=02BD2137-0890-1EEA-A6C2-BB55C1978999,IsActiveEntity=true)?$expand=ITEMS,BUSINESS_PARTNER
+Authorization: Basic vikesh:Vikesh01!
+
+
+### Create New PO
+POST http://localhost:4004/PurchaseOrderSRV/POSet
 Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic vikesh:Vikesh01!
 
 {
-	"CURRENCY_CODE": "EUR",
+	"CURRENCY_code": "EUR",
 	"GROSS_AMOUNT": "3913.91",
 	"NET_AMOUNT": "3289",
 	"TAX_AMOUNT": "624.91",
-	"NODE_KEY": "74867AD200E41EDBA5D8B0C98DC28111",
-	"PO_ID": "300000300",
+	"BUSINESS_PARTNER_ID": "74867AD2-00E4-1EDB-A5D8-B06885A56052",
+	"PO_NO": "300000300",
 	"LIFECYCLE_STATUS": "N",
-	"OVERALL_STATUS": "P",
-	"PARTNER_GUID_NODE_KEY": "74867AD200E41EDBA5D8B06885B04052"
+	"OVERALL_STATUS": "P"
 }
 
-###Calling action for the Entity
-POST http://localhost:4004/CatalogService/POs('74867AD200E41EDBA5D8B0C98DC2C052')/CatalogService.boost
-Content-Type: application/json
+#---------------------------------------------------------------
+# POSet - Viewer: Viewer - Can Only Read, exlcuding Blocked POs
+#---------------------------------------------------------------
 
-{}
+### Read Top 20 Purchase Orders
+GET http://localhost:4004/PurchaseOrderSRV/POSet?$top=20
+Authorization: Basic vishesh:Vishesh01!
 
-###Read Largest Order in system
-GET http://localhost:4004/CatalogService/POs('74867AD200E41EDBA5D8B0C98DC2C052')/CatalogService.largestOrder()
+### Read Single Purchase Order with respective Items and Business Partners
+GET http://localhost:4004/PurchaseOrderSRV/POSet(ID=02BD2137-0890-1EEA-A6C2-BB55C1978999,IsActiveEntity=true)?$expand=ITEMS,BUSINESS_PARTNER
+Authorization: Basic vishesh:Vishesh01!
 
-###Read Largest Order in system
-GET http://localhost:4004/CatalogService/POs('74867AD200E41EDBA5D8B0C98DC2C052')
+### Create New PO
+POST http://localhost:4004/PurchaseOrderSRV/POSet
+Content-Type: application/json;IEEE754Compatible=true
+Authorization: Basic vishesh:Vishesh01!
+
+{
+	"CURRENCY_code": "EUR",
+	"GROSS_AMOUNT": "3913.91",
+	"NET_AMOUNT": "3289",
+	"TAX_AMOUNT": "624.91",
+	"BUSINESS_PARTNER_ID": "74867AD2-00E4-1EDB-A5D8-B06885A56052",
+	"PO_NO": "300000300",
+	"LIFECYCLE_STATUS": "N",
+	"OVERALL_STATUS": "P"
+}
 
 
-#V2------------------------------------------------------
-###Calling Function using V2
-GET http://localhost:4004/v2/CatalogService/POs_largestOrder?ID=74867AD200E41EDBA5D8B0C98DC2C052
+#--------------------------------------------------------------- 
+# To Do: Add the service and UI
+# Action - Bound  
+# Action - Unbound  
+# Function Import - Bound  
+# Function Import - Unbound  
+#--------------------------------------------------------------- 
 
-###Custom Action
-POST http://localhost:4004/v2/CatalogService/POs_boost?NODE_KEY=74867AD200E41EDBA5D8B0C98DC2C052
-Content-Type: application/json
+# ###Calling action for the Entity
+# POST http://localhost:4004/PurchaseOrderSRV/POSet('02BD2137-0890-1EEA-A6C2-BB55C1978999')/PurchaseOrderSRV.ActionName
+# Content-Type: application/json
 
-{}
+# {}
 
+# ###Read Largest Order in system
+# GET http://localhost:4004/PurchaseOrderSRV/POSet('02BD2137-0890-1EEA-A6C2-BB55C1978999')/PurchaseOrderSRV.functionName()
 
+#---------------------------------------------------------------
+#
+#---------------------------------------------------------------
+
+# Content-Type: application/json;IEEE754Compatible=true
+# Authorization: Basic vikesh:1234
+
+# {
+#             "SALARY_AMOUNT": "10000000.00", 
+#             "CURRENCY_code": "INR"
+# }

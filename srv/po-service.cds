@@ -28,11 +28,13 @@ service PurchaseOrderSRV {
 
         ITEMS : redirected to POItemsSet
 
-    } actions {
-        function largestOrder() returns array of POSet;
-        //action boost(I_LIFECYCLY_STATUS: type of POSet:LIFECYCLE_STATUS);
-        action boost();
-    };
+    } 
+    // actions {
+    //     function largestOrder() returns array of POSet;
+    //     //action boost(I_LIFECYCLY_STATUS: type of POSet:LIFECYCLE_STATUS);
+    //     action boost();
+    // }
+    ;
 
     entity POItemsSet as projection on transaction.poitems {
         *,
@@ -40,6 +42,8 @@ service PurchaseOrderSRV {
         PRODUCT : redirected to ProductSet,
     };
 
+
+//https://cap.cloud.sap/docs/guides/providing-services#actions-and-functions
 //   // Sync API
 //   action like (review: type of Reviews:ID);
 //   action unlike (review: type of Reviews:ID);
