@@ -1,13 +1,7 @@
 # Introduction
-Demonstration of Deployment using https://github.com/vikesh19991/zvks_capm_po_undep.git
-- Create HANA DB Instance and Start the instance
-- Add HANA Configuration
-- Generate MTA.YAML
-- Add UI Module to MTA.YAML
-- Add embedded Approuter to the UI Module
-- Exclude local CSV file
-- Generate MTA Archive and Deploy 
-
+Demonstration of Deployment using https://github.com/vikesh19991/zvks_capm_po_dep.git
+- Add Authenticaiton and Authorization for local testing
+- Add Authentication and Authorization for BTP deployment 
 
 # Getting Started
 
